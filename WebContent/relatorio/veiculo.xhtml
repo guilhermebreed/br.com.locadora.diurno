@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  template="/template.xhtml">
+	  
+	  <ui:define name="conteudo">
+	  
+		  <p:panel header="Relatório por preço">
+		  
+		  		<h:form>
+		  			
+		  			<h:panelGrid columns="2">
+		  			
+		  				<p:outputLabel value="Preço Inicial" />
+		  				<p:inputText value="#{veiculoRelatorioController.precoInicial}" />
+		  				
+		  				<p:outputLabel value="Preço Final"/>
+		  				<p:inputText value="#{veiculoRelatorioController.precoFinal}" />
+		  			
+		  			</h:panelGrid>
+		  			
+		  			<p:commandButton value="Visualizar"
+		  					actionListener="#{veiculoRelatorioController.consultar()}"
+		  					update="@form" />
+		  					
+		  			<p:commandButton value="PDF"
+		  				ajax="false"
+		  				actionListener="#{veiculoRelatorioController.pdf()}" />
+		  					
+		  			
+		  			<p:dataTable value="#{veiculoRelatorioController.veiculos}"
+	  							 var="veiculo">
+	  						
+	  						<p:column headerText="Código">
+	  							#{veiculo.idVeiculo}
+	  						</p:column>
+	  						
+	  						<p:column headerText="Placa">
+	  							#{veiculo.placa}
+	  						</p:column>
+	  						
+	  						<p:column headerText="Valor">
+	  							
+	  							<h:outputText value="#{veiculo.valor}">
+	  								<f:convertNumber type="currency" />
+	  							</h:outputText>
+	  					
+	  						</p:column>
+	  						
+	  						<p:column headerText="Modelo">
+	  							#{veiculo.modelo.descricao}
+	  						</p:column>
+	  						
+	  						<p:column headerText="Opcionais">
+
+	  							<ui:repeat value="#{veiculo.opcionais}" 
+	  									   var="op">
+	  								#{op.descricao} <br/>
+	  							</ui:repeat>
+	  							
+	  							
+	  						</p:column>
+	  						
+	  				
+	  				</p:dataTable>
+		  			
+		  		
+		  		</h:form>		
+		  
+		  </p:panel>
+	  
+	  </ui:define>
+	  
+	  
+</ui:composition>

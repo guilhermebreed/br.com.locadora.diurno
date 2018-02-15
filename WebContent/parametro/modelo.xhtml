@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  template="/template.xhtml">
+	  
+	  
+	  <ui:define name="conteudo">
+	  
+	  	<p:panel header="Modelo">
+	  	
+	  		<h:form>
+	  		
+	  			<p:growl />
+	  			
+	  			<h:inputHidden 
+	  				value="#{modeloController.modelo.idModelo}" /> <!-- IdModelo -->
+	  			
+	  			<h:panelGrid columns="2">
+	  				
+	  				<p:outputLabel value="Descrição:" />
+	  				
+	  				<p:inputText 
+	  					value="#{modeloController.modelo.descricao}" /> <!-- Descricao -->  
+
+	  			</h:panelGrid>
+	  			
+	  			<p:commandButton value="Salvar"
+	  					update="@form"
+	  					actionListener="#{modeloController.salvar()}"/>
+
+				
+				<br/> <br/>
+				
+				<p:dataTable value="#{modeloController.consultar()}"
+							 var="modelo"
+							 emptyMessage="Nenhum modelo cadastrado"
+							 paginator="true"
+							 rows="10">
+							 
+							 <p:column headerText="Código">
+							 		#{modelo.idModelo}
+							 </p:column>
+							 
+							 <p:column headerText="Descrição">
+							 		#{modelo.descricao}
+							 </p:column>
+							 
+							 <p:column headerText="Editar">
+							 
+							 	 <p:commandButton icon="ui-icon-pencil"
+							 	 	actionListener="#{modeloController.editar(modelo)}"
+							 	 	update="@form"
+							 	 	process="@this" />
+							 
+							 </p:column>
+							 
+							 <p:column headerText="Exluir">
+							 	 <p:commandButton icon="ui-icon-close"
+							 	 	actionListener="#{modeloController.excluir(modelo)}"
+							 	 	update="@form"
+							 	 	process="@this" />
+							 </p:column>
+				
+				</p:dataTable>
+				
+	  		</h:form>
+	  	
+	  	</p:panel>
+	  
+	  </ui:define>
+	  
+
+</ui:composition>

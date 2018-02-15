@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  template="/template.xhtml">
+	  
+	  
+	  <ui:define name="conteudo">
+	  	
+	  		<p:panel header="Veículos">
+	  			
+	  			<h:form>
+	  				<p:growl />
+	  				
+	  				<h:inputHidden value="#{veiculoController.veiculo.idVeiculo}" />
+	  				
+	  				
+	  				<h:panelGrid columns="2">
+	  					
+	  					<p:outputLabel value="Placa:"/>
+	  					<p:inputMask mask="aaa-9999" 
+	  								 style="text-transform:uppercase" 
+	  								 value="#{veiculoController.veiculo.placa}" />
+	  					
+	  					
+	  					<p:outputLabel value="Valor:"/>
+	  					<p:inputText value="#{veiculoController.veiculo.valor}"/>
+	  				
+	  					<p:outputLabel value="Modelo:"/>
+	  					<p:selectOneMenu 
+	  							filter="true"
+	  							converter="#{entityConverter}"
+	  							value="#{veiculoController.veiculo.modelo}">
+	  						
+	  						<f:selectItems 
+	  							value="#{modeloController.consultar()}"
+	  							var="modelo"
+	  							itemLabel="#{modelo.descricao}"
+	  							itemValue="#{modelo}"/>
+	  						
+	  					</p:selectOneMenu>
+	  					
+	  					<p:outputLabel value="Opcionais:" />
+	  					<p:selectCheckboxMenu 
+	  							filter="true"
+	  							converter="#{entityConverter}"
+	  							label="Selecione os opcionais"
+	  							value="#{veiculoController.veiculo.opcionais}">
+	  						
+	  						<f:selectItems
+	  							value="#{opcionalController.consultar()}"
+	  							var="opcional"
+	  							itemLabel="#{opcional.descricao}"
+	  							itemValue="#{opcional}"/>
+	  						 
+	  					</p:selectCheckboxMenu>
+	  					
+	  				</h:panelGrid>
+	  				
+	  				
+	  				<p:commandButton value="Salvar"
+	  					actionListener="#{veiculoController.salvar()}"
+	  					update="@form" />
+	  				
+	  				
+	  				<p:dataTable value="#{veiculoController.consultar()}"
+	  							 var="veiculo">
+	  						
+	  						<p:column headerText="Código">
+	  							#{veiculo.idVeiculo}
+	  						</p:column>
+	  						
+	  						<p:column headerText="Placa">
+	  							#{veiculo.placa}
+	  						</p:column>
+	  						
+	  						<p:column headerText="Valor">
+	  							
+	  							<h:outputText value="#{veiculo.valor}">
+	  								<f:convertNumber type="currency" />
+	  							</h:outputText>
+	  					
+	  						</p:column>
+	  						
+	  						<p:column headerText="Modelo">
+	  							#{veiculo.modelo.descricao}
+	  						</p:column>
+	  						
+	  						<p:column headerText="Opcionais">
+
+	  							<ui:repeat value="#{veiculo.opcionais}" 
+	  									   var="op">
+	  								#{op.descricao} <br/>
+	  							</ui:repeat>
+	  							
+	  							
+	  						</p:column>
+	  						
+	  				
+	  				</p:dataTable>
+	  				
+	  				
+	  			</h:form>
+	  		
+	  		</p:panel>
+	  
+	  </ui:define>
+	  
+	  
+</ui:composition>

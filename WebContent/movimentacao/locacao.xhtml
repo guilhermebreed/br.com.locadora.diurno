@@ -1,0 +1,109 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  template="/template.xhtml">
+	  
+
+	  <ui:define name="conteudo">
+	  
+	  	<h:form>
+	  	
+	  		<p:panel header="Dados da locação">
+	  			<p:growl/>
+	  			
+	  			<h:inputHidden 
+	  				value="#{locacaoController.locacao.idLocacao}" />
+	  				
+	  			<h:panelGrid columns="2">
+	  				
+	  				<p:outputLabel value="Data:"/>
+	  				<p:calendar 
+	  					value="#{locacaoController.locacao.dataInicio}"
+	  					pattern="dd/MM/yyyy" />
+	  					
+	  				<p:outputLabel value="Cliente" />
+	  				<p:selectOneMenu converter="#{entityConverter}"
+	  						value="#{locacaoController.locacao.cliente}">
+	  				
+	  						<f:selectItems 
+	  							value="#{locacaoController.todosClientes()}"
+	  							var="cliente"
+	  							itemLabel="#{cliente.nome}"
+	  							itemValue="#{cliente}"/>
+	  				
+	  				</p:selectOneMenu>
+	  				
+	  			</h:panelGrid>  			
+	  			
+	  		</p:panel>
+	  		
+	  		<br/> <br/>
+	  		
+	  		<p:panel header="Adicione os veículos">
+	  		
+	  			<h:panelGrid columns="2">
+	  			
+	  				<h:outputLabel value="Veículo:" />
+	  				<p:selectOneMenu converter="#{entityConverter}"
+	  						value="#{locacaoController.locacaoVeiculo.veiculo}">
+	  					
+	  						<f:selectItems 
+	  							value="#{veiculoController.consultar()}"
+	  							var="veiculo"
+	  							itemValue="#{veiculo}"
+	  							itemLabel="#{veiculo.placa} - #{veiculo.modelo.descricao}" />
+	  							
+	  				</p:selectOneMenu>
+	  				
+	  				<h:outputLabel value="Valor:"/>
+	  				<p:inputText 
+	  					value="#{locacaoController.locacaoVeiculo.valor}" />
+	  					
+	  				<h:outputLabel value="Qtd. dias:" />
+	  				<p:inputText 
+	  					value="#{locacaoController.locacaoVeiculo.quantidadeDia}" />
+	  				
+	  			
+	  			</h:panelGrid>
+	  			
+	  			<p:commandButton 
+	  				update="pnl_veiculo"
+	  				actionListener="#{locacaoController.adicionar()}"
+	  				icon="ui-icon-plus" />
+	  		
+	  		</p:panel>
+	  		
+	  		<br/><br/>
+	  		
+	  		<p:panel id="pnl_veiculo" header="Veículos adicionados">
+	  		     <p:growl/>
+	  			<p:dataTable 
+	  				value="#{locacaoController.locacao.locacaoVeiculos}"
+	  				var="lv">
+	  				
+	  				<p:column headerText="Placa">
+	  					#{lv.veiculo.placa}
+	  				</p:column>
+	  				
+	  				<p:column headerText="Qtd. dias">
+	  					#{lv.quantidadeDia}
+	  				</p:column>
+	  				
+	  				<p:column headerText="Valor">
+	  					#{lv.valor}
+	  				</p:column>
+	  			
+	  			
+	  			</p:dataTable>
+	  		
+	  		</p:panel>
+	  		
+	  	
+	  	</h:form>
+	  
+	  </ui:define>
+	  
+
+</ui:composition>

@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+
+	  template="/template.xhtml">
+	  
+	  
+	  <ui:define name="conteudo">
+	
+	  			<h:form>
+	  				
+	  				<h:messages /> <!-- Mensagens -->
+	  				
+	  				<h:inputHidden value="#{modeloController.modelo.idModelo}" /> <!-- Não mostra para o usuário -->
+	  				
+	  				<h:panelGrid columns="2">
+	  					
+	  					<h:outputLabel value="Descrição:"/>
+	  					
+	  					<h:inputText 
+	  						value="#{modeloController.modelo.descricao}" />
+	  					
+	  				</h:panelGrid>
+	  				
+	  				<h:commandButton value="Salvar"
+	  					actionListener="#{modeloController.salvar()}"
+	  					update="@form" />
+	  			
+	  				<br/>  <br/>
+	  				
+	  				<h:dataTable 
+	  						value="#{modeloController.consultar()}"
+	  						var="modelo">
+	  						
+	  						<h:column headerText="Código">
+	  							#{modelo.idModelo}
+	  						</h:column>
+	  						
+	  						<h:column headerText="Descrição">
+	  							#{modelo.descricao}
+	  						</h:column>
+	  						
+	  						<h:column style="width:5%" headerText="Editar">
+	  							<h:commandButton 
+	  								icon="ui-icon-pencil"
+	  								actionListener="#{modeloController.editar(modelo)}"
+	  								immediate="true"/>
+	  						</h:column>
+	  						
+	  						<h:column style="width:5%" headerText="Excluir">
+	  							<h:commandButton 
+	  								icon="ui-icon-close"
+	  								actionListener="#{modeloController.excluir(modelo)}"
+	  								immediate="true"/>
+	  						</h:column>
+	  						
+	  				
+	  				</h:dataTable>
+	  			
+	  			</h:form>
+	  		
+	  		
+	  
+	  </ui:define>
+	  
+
+</ui:composition>
